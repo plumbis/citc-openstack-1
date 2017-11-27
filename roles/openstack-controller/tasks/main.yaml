@@ -1,0 +1,24 @@
+#-------------------------------------------------------------------------------
+#
+# Copyright 2017 Cumulus Networks Inc.  All rights reserved
+#
+#-------------------------------------------------------------------------------
+#
+# Broken into separate files because there are some gnarly steps involved with
+# some of these.
+#
+
+- name: Common OpenStack Packages
+  apt:
+    name: python-openstackclient
+    state: present
+
+- import_tasks: mysql.yaml
+- import_tasks: rabbitmq.yaml
+- import_tasks: memcached.yaml
+- import_tasks: keystone.yaml
+- import_tasks: glance.yaml
+- import_tasks: neutron-controller.yaml
+- import_tasks: nova-controller.yaml
+- import_tasks: horizon.yaml
+- import_tasks: initial-config.yaml

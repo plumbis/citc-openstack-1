@@ -1,0 +1,38 @@
+#-------------------------------------------------------------------------------
+#
+# switch management groups
+#
+
+[spines]
+spine01
+spine02
+
+[leafs]
+leaf01
+leaf02
+leaf03
+leaf04
+
+[switches:children]
+spines
+leafs
+
+#-------------------------------------------------------------------------------
+#
+# compute server groups
+#
+
+[servers]
+server01
+server02
+server03
+server04
+
+#-------------------------------------------------------------------------------
+#
+# out-of-band devices
+#
+[oob]
+oob-mgmt-server
+oob-mgmt-switch
+

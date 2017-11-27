@@ -1,0 +1,54 @@
+---
+- name: distribute the cluster hosts file
+  blockinfile:
+    dest: /etc/hosts
+    marker: "# {mark} ANSIBLE MANAGED BLOCK cluster hosts"
+    block: "{{ lookup('file', '{{ inventory_dir }}/files/hosts') }}"
+  become: true
+
+- name:  enable management VRF if it is not already on
+  command: ip addr show dev mgmt
+  register: MGMT_VRF_CHECK
+  ignore_errors: yes
+  changed_when: false
+- block:
+  - nclu:
+      commands:
+      - add vrf mgmt
+      atomic: true
+      description: "enable mgmt vrf"
+    async: 1
+    poll: 0
+    ignore_errors: true
+  - local_action: wait_for host={{ inventory_hostname }} state=started port=22 delay=10
+  - include_tasks: "{{ inventory_dir }}/roles/switch-common/tasks/reboot.yaml"
+  when: MGMT_VRF_CHECK.stdout.find('inet 127.0.0.1/8 scope host mgmt') == -1
+
+- name: install netq
+  apt_repository:
+    repo: deb https://apps3.cumulusnetworks.com/repos/deb CumulusLinux-3 netq-1.1
+    filename: netq
+    state: present
+  become: true
+- apt:
+    name: cumulus-netq
+    update_cache: yes
+  become: true
+- service:
+    name: rsyslog
+    state: restarted
+  become: true
+- service:
+    name: netqd
+    enabled: yes
+    state: restarted
+  become: true
+- copy:
+    src: files/netq.yml
+    dest: "/etc/netq/netq.yml"
+    owner: root
+    group: root
+    mode: "u=rw,o=r,g=r"
+  become: yes
+# We kick the agent once the data plane is set up
+...
