@@ -185,7 +185,7 @@ enable_vxlan = true
 #vxlan_group = 224.0.0.1
 
 # Local IP address of the VXLAN endpoints. (IP address value)
-local_ip = {{ openstack.vxlan_ip[ansible_hostname] }}
+local_ip = {{ myvars.V4 }}
 
 # Extension to use alongside ml2 plugin's l2population mechanism driver. It
 # enables the plugin to populate VXLAN forwarding table. (boolean value)

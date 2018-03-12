@@ -1,25 +1,19 @@
 ---
 - hosts: oob-mgmt-server
   roles:
-  - internet
-  become: true
-  
+  - telemetry-server
+
 - hosts: switches
   roles:
   - switch-common
-  become: true
 
-- hosts: leaf01,leaf02
+- hosts: leafs
   roles:
   - l3-leaf
 
 - hosts: spines
   roles:
   - l3-spine
-
-- hosts: leaf03,leaf04
-  roles:
-  - l3-leaf
 
 - hosts: servers
   roles:
@@ -36,8 +30,7 @@
   - openstack-compute
   become: true
 
-- hosts: server01
+- hosts: oob-mgmt-server
   roles:
-  - demo
-  become: true
+  - internet
 ...

@@ -2,13 +2,13 @@ ansible_ssh_pass: "CumulusLinux!"
 ansible_become_pass: "CumulusLinux!"
 
 #
-# Openstack External access configuration
+# Openstack external access configuration
 #
 
-HORIZON_HOST: server01
-HORIZON_UI:   80
-FLOATING_IP:  192.168.0.102
-FLOATING_SSH: 2222
+HORIZON_HOST:  server01
+HORIZON_UI:    80
+FLOATING_IP:   192.168.0.102
+FLOATING_SSH:  2222
 
 #
 # Global connectivity options
@@ -90,16 +90,6 @@ servervars:
 # OpenStack variables
 #
 openstack:
-  ip:
-    server01: "10.1.1.11"
-    server02: "10.1.1.12"
-    server03: "10.1.2.11"
-    server04: "10.1.2.12"
-  vxlan_ip:
-    server01: "10.1.1.11"
-    server02: "10.1.1.12a"
-    server03: "10.1.2.11"
-    server04: "10.1.2.12"
   provider_network:
     iface:
       server01: "eth0"
@@ -116,6 +106,4 @@ openstack:
   vagrant_novnc_hack: true
   args: "--os-token ac014aaa2beb079192be --os-url http://controller:35357/v3 --os-identity-api-version 3"
   admin_credentials: "--os-project-domain-name default --os-user-domain-name default --os-project-name admin --os-username admin --os-password CumulusLinux --os-auth-url http://controller:35357/v3 --os-identity-api-version 3 --os-image-api-version 2"
-  neutron_credentials: "--os-project-domain-name default --os-user-domain-name default --os-project-name admin --os-username admin --os-password CumulusLinux --os-auth-url http://controller:35357/v3"
   demo_credentials:  "--os-project-domain-name default --os-user-domain-name default --os-project-name demo --os-username demo --os-password demo --os-auth-url http://controller:35357/v3 --os-identity-api-version 3 --os-image-api-version 2"
-  demo_neutron_credentials:  "--os-project-domain-name default --os-user-domain-name default --os-project-name demo --os-username demo --os-password demo --os-auth-url http://controller:35357/v3"

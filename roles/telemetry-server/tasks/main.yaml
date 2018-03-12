@@ -1,0 +1,57 @@
+#
+# The oob-mgmt-server acts as the Internet gateway to fabric
+#
+# Also need to perform NAT for remote access  to Mesos/Marathon UI services
+#
+
+- set_fact:
+    myvars: "{{ servervars[inventory_hostname] }}"
+
+- name: upgrade Cumulus Linux
+  apt:
+    update_cache: yes
+    upgrade: full
+  become: true
+
+- name:  Unnumbered BGP routing (v4 & V6) to the fabric
+  nclu:
+    commands:
+    - add loopback lo ip address {{ myvars.V4 }}/32
+    - add loopback lo ipv6 address {{ myvars.V6 }}/128
+    - add bgp autonomous-system {{ myvars.ASN }}
+    - add bgp router-id {{ myvars.V4 }}
+    - add bgp ipv4 unicast network {{ myvars.V4 }}/32
+    - add bgp ipv6 unicast network {{ myvars.V6 }}/128
+    - add bgp bestpath as-path multipath-relax
+    - add bgp ipv4 unicast network {{ OUTSIDE_NET }}
+    - add bgp neighbor {{ JUMP_INET_IFS }} interface remote-as external
+    - add bgp ipv4 unicast neighbor {{ JUMP_INET_IFS }} activate
+    - add bgp ipv6 unicast neighbor {{ JUMP_INET_IFS }} activate
+    atomic: true
+    description: "unnumbered BGP gateway"
+
+- name: Start NetQ and Connect to the NetQ Telemetry Server
+  apt:
+    name: cumulus-netq
+    state: present
+  become: yes
+- service:
+    name: rsyslog
+    state: restarted
+  become: true
+- service:
+    name: netqd
+    enabled: yes
+    state: restarted
+  become: true
+- copy:
+    src: files/netq.yml
+    dest: "/etc/netq/netq.yml"
+    owner: root
+    group: root
+    mode: "u=rw,o=r,g=r"
+  become: yes
+- pause:
+    seconds: 5
+- shell: netq config restart agent
+

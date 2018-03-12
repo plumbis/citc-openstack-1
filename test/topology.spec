@@ -1,27 +1,21 @@
 
-vm oob-mgmt-server netq-1.1.0 2 10 40
-vm leaf01 cumulus-vx-3.4.3 1 2 2
-vm leaf02 cumulus-vx-3.4.3 1 2 2
-vm leaf03 cumulus-vx-3.4.3 1 2 2 
-vm leaf04 cumulus-vx-3.4.3 1 2 2
-vm spine01 cumulus-vx-3.4.3 1 2 2
-vm spine02 cumulus-vx-3.4.3 1 2 2
-vm server01 ubuntu-16.04 2 4 4
+vm oob-mgmt-server netq-1.2.0 2 10 40
+vm leaf01 cumulus-vx-3.5.0 1 2 2
+vm leaf02 cumulus-vx-3.5.0 1 2 2
+vm leaf03 cumulus-vx-3.5.0 1 2 2 
+vm leaf04 cumulus-vx-3.5.0 1 2 2
+vm spine01 cumulus-vx-3.5.0 1 2 2
+vm spine02 cumulus-vx-3.5.0 1 2 2
+vm server01 ubuntu-16.04 2 8 4
 vm server02 ubuntu-16.04 2 4 4
 vm server03 ubuntu-16.04 2 4 4
 vm server04 ubuntu-16.04 2 4 4
 
 network oob-mgmt-server eth0 10.255.0.1 255.255.0.0 public
 service oob-mgmt-server ssh eth0 22 TCP public
-service oob-mgmt-server http eth0 80 TCP public
-service oob-mgmt-server https eth0 443 TCP public
-service oob-mgmt-server http2 eth0 1337 TCP public
-service oob-mgmt-server grafana eth0 3000 TCP public
-service oob-mgmt-server novnc eth0 6080 TCP public
+service oob-mgmt-server horizon eth0 80 TCP public
 service oob-mgmt-server netq eth0 9000 TCP public
-service oob-mgmt-server mesos eth0 5050 TCP public
-service oob-mgmt-server marathon eth0 8080 TCP public
-service oob-mgmt-server mesosapp eth0 8088 TCP public
+service oob-mgmt-server ssh-demo eth0 2222 TCP public
 
 network oob-mgmt-server eth1 192.168.0.254 255.255.0.0
 network leaf01 eth0 192.168.0.11 255.255.0.0

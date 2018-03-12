@@ -8,10 +8,8 @@
 # some of these.
 #
 
-- name: Common OpenStack Packages
-  apt:
-    name: python-openstackclient
-    state: present
+- set_fact:
+    myvars: "{{ servervars[inventory_hostname] }}"
 
 - import_tasks: mysql.yaml
 - import_tasks: rabbitmq.yaml

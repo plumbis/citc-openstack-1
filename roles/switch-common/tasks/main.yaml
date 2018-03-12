@@ -24,15 +24,16 @@
   - include_tasks: "{{ inventory_dir }}/roles/switch-common/tasks/reboot.yaml"
   when: MGMT_VRF_CHECK.stdout.find('inet 127.0.0.1/8 scope host mgmt') == -1
 
-- name: install netq
+- name: install and start netq
   apt_repository:
-    repo: deb https://apps3.cumulusnetworks.com/repos/deb CumulusLinux-3 netq-1.1
+    repo: deb https://apps3.cumulusnetworks.com/repos/deb CumulusLinux-3 netq-1.2
     filename: netq
     state: present
   become: true
 - apt:
     name: cumulus-netq
     update_cache: yes
+    state: latest
   become: true
 - service:
     name: rsyslog
@@ -50,5 +51,7 @@
     group: root
     mode: "u=rw,o=r,g=r"
   become: yes
-# We kick the agent once the data plane is set up
+- pause:
+    seconds: 10
+- shell: netq config restart agent
 ...

@@ -1,3 +1,4 @@
+---
 - name: create environment scripts
   template:
     src: "{{ item }}.j2"
@@ -7,6 +8,8 @@
   - admin-openrc
   - demo-openrc
 
+# Create the m1.nano machine definition
+#
 - name: collect flavors
   command: openstack {{ openstack.admin_credentials }} flavor list
   register: _flavors
@@ -15,6 +18,8 @@
   command: openstack {{ openstack.admin_credentials }} flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
   when: "'m1.nano' not in _flavors.stdout"
 
+# add security group rules for access
+#
 - name: add icmp security rule
   command: openstack {{ openstack.admin_credentials }} security group rule create --proto icmp default
   when: "'m1.nano' not in _flavors.stdout"
@@ -31,15 +36,13 @@
   command: openstack {{ openstack.demo_credentials }} security group rule create --proto tcp --dst-port 22 default
   when: "'m1.nano' not in _flavors.stdout"
 
+# Create the provider network
+#
 - name: add provider network for neutron
-  command: neutron {{ openstack.neutron_credentials }}  net-create --shared --provider:physical_network provider   --provider:network_type flat provider
-  when: "'m1.nano' not in _flavors.stdout"
-
-- name: make provider network routable
-  command: neutron {{ openstack.neutron_credentials }} net-update provider --router:external
+  command: openstack {{ openstack.admin_credentials }} network create --share --external --provider-physical-network provider --provider-network-type flat provider
   when: "'m1.nano' not in _flavors.stdout"
 
 - name: add subnet to provider network
-  command: neutron {{ openstack.neutron_credentials }} subnet-create --name provider --allocation-pool start={{ openstack.provider_network.start }},end={{ openstack.provider_network.end }} --dns-nameserver 8.8.4.4 --gateway {{ openstack.provider_network.gateway }} provider {{ openstack.provider_network.cidr }}
+  command: openstack {{ openstack.admin_credentials }} subnet create --network provider --allocation-pool start={{ openstack.provider_network.start }},end={{ openstack.provider_network.end }} --dns-nameserver 8.8.4.4 --gateway {{ openstack.provider_network.gateway }} --subnet-range {{ openstack.provider_network.cidr }} provider 
   when: "'m1.nano' not in _flavors.stdout"
-
+...

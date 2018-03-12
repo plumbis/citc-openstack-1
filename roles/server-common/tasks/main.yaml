@@ -16,15 +16,15 @@
     url:  https://apps3.cumulusnetworks.com/setup/cumulus-apps-deb.pubkey
     state: present
 - apt_repository:
-    repo: deb [arch=amd64] https://apps3.cumulusnetworks.com/repos/deb xenial netq-1.1
+    repo: deb [arch=amd64] https://apps3.cumulusnetworks.com/repos/deb xenial netq-1.2
     filename: netq
     state: present
 - apt:
     name: ubuntu-cloud-keyring
     state: present
 - apt_repository:
-    repo: 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka  main'
-    filename: mitaka
+    repo: 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/pike  main'
+    filename: pike
     state: present
 - apt:
     update_cache: yes
@@ -54,6 +54,16 @@
 - apt:
     deb: /tmp/frr_3.1+cl3u1_amd64.deb
 
+# These packages redundantly  appear in later playbooks
+#
+- name: install common OpenStack packages to speed up the deployment
+  apt:
+    name: "{{ item }}"
+  with_items: 
+  - python-openstackclient
+  - neutron-linuxbridge-agent
+  - neutron-l3-agent
+  - nova-common
 
 - name: high speed networking
   command: ifdown --force --allow=ansible
@@ -120,4 +130,4 @@
     mode: "u=rw,o=r,g=r"
 - pause:
     seconds: 5
-- shell: netq config agent restart
+- shell: netq config restart agent

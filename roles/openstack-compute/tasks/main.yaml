@@ -1,5 +1,8 @@
 ---
 
+- set_fact:
+    myvars: "{{ servervars[inventory_hostname] }}"
+
 - name: Install neutron and nova
   apt:
     name: "{{ item }}"

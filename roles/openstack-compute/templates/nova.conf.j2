@@ -1,43 +1,29 @@
 [DEFAULT]
-dhcpbridge_flagfile=/etc/nova/nova.conf
-dhcpbridge=/usr/bin/nova-dhcpbridge
-state_path=/var/lib/nova
-lock_path=/var/lock/nova
-force_dhcp_release=True
-libvirt_use_virtio_for_bridges=True
+log_dir = /var/log/nova
+state_path = /var/lib/nova
+my_ip = {{ myvars.V4 }}
+transport_url = rabbit://openstack:{{openstack.admin_password}}@controller
+enabled_apis=osapi_compute,metadata
 verbose=True
-ec2_private_dns_show_ip=True
-api_paste_config=/etc/nova/api-paste.ini
-enabled_apis=ec2,osapi_compute,metadata
-rpc_backend = rabbit
-auth_strategy = keystone
-my_ip = {{ openstack.ip[ansible_hostname] }}
-use_neutron = True
-firewall_driver = nova.virt.firewall.NoopFirewallDriver
+libvirt_use_virtio_for_bridges=True
 
+[api]
+auth_strategy = keystone
+
+[api_database]
+connection = mysql+pymysql://nova:{{openstack.admin_password}}@controller/nova_api
+
+[cells]
+#enable = False
+
+[database]
+connection = mysql+pymysql://nova:{{openstack.admin_password}}@controller/nova
 
 [glance]
 api_servers = http://controller:9292
 
-[oslo_concurrency]
-lock_path = /var/lib/nova/tmp
-
-
-[vnc]
-enabled = True
-vncserver_listen = 0.0.0.0
-vncserver_proxyclient_address = $my_ip
-novncproxy_base_url = http://{% if openstack.vagrant_novnc_hack %}localhost{% else %}controller{% endif %}:6080/vnc_auto.html
-
-
-[oslo_messaging_rabbit]
-rabbit_host = controller
-rabbit_userid = openstack
-rabbit_password = {{ openstack.admin_password }}
-
-
 [keystone_authtoken]
-auth_uri = http://controller:5000
+auth_uri = http://contorller:5000
 auth_url = http://controller:35357
 memcached_servers = controller:11211
 auth_type = password
@@ -45,8 +31,10 @@ project_domain_name = default
 user_domain_name = default
 project_name = service
 username = nova
-password = {{ openstack.admin_password }}
+password = {{openstack.admin_password}}
 
+[libvirt]
+virt_type = qemu
 
 [neutron]
 url = http://controller:9696
@@ -57,4 +45,32 @@ user_domain_name = default
 region_name = RegionOne
 project_name = service
 username = neutron
-password = {{openstack.admin_password}}
+password = {{ openstack.admin_password }}
+
+[oslo_concurrency]
+lock_path = /var/lock/nova
+
+[oslo_messaging_rabbit]
+#rabbit_host = controller
+#rabbit_userid = openstack
+#rabbit_password = CumulusLinux
+
+[placement]
+os_region_name = RegionOne
+project_domain_name = default
+project_name = service
+auth_type = password
+user_domain_name = default
+auth_url = http://controller:35357/v3
+username = placement
+password = {{ openstack.admin_password }}
+
+[vnc]
+enabled = true
+vncserver_listen = $my_ip
+vncserver_proxyclient_address = $my_ip
+novncproxy_base_url = http://controller:6080/vnc_auto.html
+
+[wsgi]
+api_paste_config=/etc/nova/api-paste.ini
+

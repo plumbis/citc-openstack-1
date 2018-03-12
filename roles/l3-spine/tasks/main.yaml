@@ -17,9 +17,4 @@
     - add bgp ipv6 unicast neighbor {{ AGG_IFS }} activate
     atomic: true
     description: "unnumbered BGP on the agg ports"
-
-- name:  Start the NetQ agent
-  pause:
-    seconds: 10
-- shell: netq config agent restart
 ...
