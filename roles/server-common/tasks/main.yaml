@@ -11,10 +11,10 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK cluster hosts"
     block: "{{ lookup('file', '{{ inventory_dir }}/files/hosts') }}"
 
-- name: add repositories for NetQ/HostPack and OpenStack then update the apt cache
+- name: add repositories for NetQ/HostPack, Mesosphere, Docker and then update the apt cache
   apt_key:
-    url:  https://apps3.cumulusnetworks.com/setup/cumulus-apps-deb.pubkey
-    state: present
+    keyserver: keyserver.ubuntu.com
+    id: A88BBC95
 - apt_repository:
     repo: deb [arch=amd64] https://apps3.cumulusnetworks.com/repos/deb xenial netq-1.2
     filename: netq
@@ -28,12 +28,12 @@
     state: present
 - apt:
     update_cache: yes
-      
+
 
 - name: install useful operational packages
   apt:
     name: "{{ item }}"
-  with_items: 
+  with_items:
   - zile
   - lldpd
   - traceroute
@@ -59,7 +59,7 @@
 - name: install common OpenStack packages to speed up the deployment
   apt:
     name: "{{ item }}"
-  with_items: 
+  with_items:
   - python-openstackclient
   - neutron-linuxbridge-agent
   - neutron-l3-agent
@@ -113,7 +113,7 @@
     enabled: yes
     state: restarted
 - shell: ifdown --force --all --allow=ansible && ifup --force --all --allow=ansible
-  
+
 - name: Start NetQ and Connect to the NetQ Telemetry Server
   service:
     name: rsyslog
