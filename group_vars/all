@@ -14,13 +14,13 @@ FLOATING_SSH:  2222
 # Global connectivity options
 #
 
-ACCESS_IFS:    	'swp1,swp2'
-UPLINK_IFS:	'swp51,swp52'
-AGG_IFS: 	'swp1,swp2,swp3,swp4'
-LEAF_INET_IF:	'swp44'
+ACCESS_IFS:     'swp1,swp2'
+UPLINK_IFS:     'swp51,swp52'
+AGG_IFS:        'swp1,swp2,swp3,swp4'
+LEAF_INET_IF:   'swp44'
 
-HOST_IF:	'eth1,eth2'
-JUMP_INET_IFS:	'eth2,eth3'
+HOST_IF:        'eth1,eth2'
+JUMP_INET_IFS:  'eth2,eth3'
 OUTSIDE_NET:    '10.0.2.0/24'
 
 #
