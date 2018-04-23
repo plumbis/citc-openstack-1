@@ -24,5 +24,6 @@ ansible-playbook setup.yaml
 ```
 and the UIs are accessed at the Telemetry Server's (jumpbox) IP adderess at...
 
-NetQ    : http://<IP>:9000 (user/password = cumulus/CumulusNetQ!)
-Horizon : http://<IP>:80/horizon (project/user/password = default/admin/CumulusLinux)
+NetQ    : http://IP:9000 (user/password = cumulus/CumulusNetQ!)
+
+Horizon : http://IP:80/horizon (project/user/password = default/admin/CumulusLinux)
