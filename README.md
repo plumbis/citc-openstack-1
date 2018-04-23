@@ -17,3 +17,12 @@ Openstack Pike is deployed on four functional Ubuntu 16.04 nodes.  The controlle
 ## UIs
 Besides console/ssh access into the oob-mgmt-server, the environment exports two web based UIs: NetQ Telemetry Server and OpenStack Horizon.
 
+## Using
+The system is deployed on a Cumulus reference topology (typically Cumulus In The Cloud) with...
+```
+ansible-playbook setup.yaml
+```
+and the UIs are accessed at the Telemetry Server's (jumpbox) IP adderess at...
+
+NetQ    : http://<IP>:9000 (user/password = cumulus/CumulusNetQ!)
+Horizon : http://<IP>:80/horizon (project/user/password = default/admin/CumulusLinux)
