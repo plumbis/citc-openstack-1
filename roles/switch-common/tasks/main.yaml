@@ -26,7 +26,7 @@
 
 - name: install and start netq
   apt_repository:
-    repo: deb https://apps3.cumulusnetworks.com/repos/deb CumulusLinux-3 netq-1.2
+    repo: deb https://apps3.cumulusnetworks.com/repos/deb CumulusLinux-3 netq-1.3
     filename: netq
     state: present
   become: true

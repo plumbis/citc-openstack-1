@@ -1,5 +1,5 @@
 
-vm oob-mgmt-server netq-1.2.0 2 10 40
+vm oob-mgmt-server netq-1.3.0 2 10 40
 vm leaf01 cumulus-vx-3.5.3 1 2 2
 vm leaf02 cumulus-vx-3.5.3 1 2 2
 vm leaf03 cumulus-vx-3.5.3 1 2 2
