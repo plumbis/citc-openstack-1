@@ -16,7 +16,7 @@
     keyserver: keyserver.ubuntu.com
     id: A88BBC95
 - apt_repository:
-    repo: deb [arch=amd64] https://apps3.cumulusnetworks.com/repos/deb xenial netq-1.2
+    repo: deb [arch=amd64] https://apps3.cumulusnetworks.com/repos/deb xenial netq-1.3
     filename: netq
     state: present
 - apt:
