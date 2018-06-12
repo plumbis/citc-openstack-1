@@ -22,6 +22,6 @@
     name: apache2
     state: restarted
     enabled: true
-  when: apache2_restart|changed
+  when: apache2_restart is changed
 
 ...

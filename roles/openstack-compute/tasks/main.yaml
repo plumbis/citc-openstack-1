@@ -42,17 +42,17 @@
     name: neutron-l3-agent
     state: restarted
     enabled: true
-  when: neutron_config_restart | changed
+  when: neutron_config_restart is changed
 - service:
     name: neutron-linuxbridge-agent
     state: restarted
     enabled: true
-  when: neutron_ml2_restart | changed
+  when: neutron_ml2_restart is changed
 - service:
     name: nova-compute
     state: restarted
     enabled: true
-  when: ( nova_config_restart | changed ) or ( nova_compute_restart | changed )
+  when: ( nova_config_restart is changed ) or ( nova_compute_restart is changed )
 
 
 - name: wait for neutron and nova to wake up

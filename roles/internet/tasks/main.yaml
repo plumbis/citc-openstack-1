@@ -25,7 +25,7 @@
     jump: DNAT
     to_destination: "{{ servervars[ HORIZON_HOST ].V4 }}:{{ HORIZON_UI }}"
   become: yes
-  when: _horizon_dnat | changed
+  when: _horizon_dnat is changed
 
 # Perhaps someday if we get the shutdown/startup figured out :-)
 #
@@ -49,5 +49,5 @@
 #     jump: DNAT
 #     to_destination: "{{ _floating_ip.stdout }}:22"
 #   become: yes
-#   when: _ssh_dnat | changed
+#   when: _ssh_dnat is changed
 
