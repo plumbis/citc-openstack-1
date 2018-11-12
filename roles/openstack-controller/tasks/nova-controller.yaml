@@ -6,6 +6,7 @@
   mysql_db:
     name: "{{ item }}"
     state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
   with_items:
   - nova_api
   - nova
