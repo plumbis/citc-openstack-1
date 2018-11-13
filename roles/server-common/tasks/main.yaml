@@ -32,14 +32,7 @@
 
 - name: install useful operational packages
   apt:
-    name: "{{ item }}"
-  with_items:
-  - zile
-  - lldpd
-  - traceroute
-  - ifupdown
-  - tcpdump
-  - ethtool
+    name: ['zile', 'lldpd', 'traceroute', 'ifupdown', 'tcpdump', 'ethtool']
 - service:
     name: lldpd
     enabled: yes
@@ -58,12 +51,7 @@
 #
 - name: install common OpenStack packages to speed up the deployment
   apt:
-    name: "{{ item }}"
-  with_items:
-  - python-openstackclient
-  - neutron-linuxbridge-agent
-  - neutron-l3-agent
-  - nova-common
+    name: ['python-openstackclient', 'neutron-linuxbridge-agent', 'neutron-l3-agent', 'nova-common']
 
 - name: high speed networking
   command: ifdown --force --allow=ansible
