@@ -7,12 +7,6 @@
 - set_fact:
     myvars: "{{ servervars[inventory_hostname] }}"
 
-- name: upgrade Cumulus Linux
-  apt:
-    update_cache: yes
-    upgrade: full
-  become: true
-
 - name:  Unnumbered BGP routing (v4 & V6) to the fabric
   nclu:
     commands:

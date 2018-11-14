@@ -4,10 +4,8 @@
 #
 - name: install glance
   apt:
-    name: "{{ item }}"
+    name: glance
     state: present
-  with_items:
-  - glance
 
 - name: create a table for glance
   mysql_db:

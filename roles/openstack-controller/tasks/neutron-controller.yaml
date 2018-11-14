@@ -4,15 +4,8 @@
 #
 - name: install neutron
   apt:
-    name: "{{ item }}"
+    name: ['neutron-server', 'neutron-plugin-ml2', 'neutron-linuxbridge-agent', 'neutron-dhcp-agent', 'neutron-metadata-agent', 'neutron-l3-agent']
     state: present
-  with_items:
-  - neutron-server
-  - neutron-plugin-ml2
-  - neutron-linuxbridge-agent
-  - neutron-dhcp-agent
-  - neutron-metadata-agent
-  - neutron-l3-agent
 
 - name: create a table for neutron
   mysql_db:
