@@ -1,4 +1,4 @@
-{% set myvars = servervars[ansible_hostname] -%}
+{% set myvars = servervars[inventory_hostname] -%}
 !
 {% for N in HOST_IF.split(',') %}
 interface {{ N }}
