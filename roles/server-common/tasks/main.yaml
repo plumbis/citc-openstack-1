@@ -100,7 +100,7 @@
     name: frr
     enabled: yes
     state: restarted
-- shell: ifdown --force --all --allow=ansible && ifup --force --all --allow=ansible
+- shell: ifdown --force --allow=ansible && ifup --force --allow=ansible
 
 - name: Start NetQ and Connect to the NetQ Telemetry Server
   service:
