@@ -44,8 +44,8 @@
 - copy:
     src: files/frr_3.1+cl3u1_amd64.deb
     dest: "/tmp"
-- apt:
-    deb: /tmp/frr_3.1+cl3u1_amd64.deb
+#- apt:
+#    deb: /tmp/frr_3.1+cl3u1_amd64.deb
 
 # These packages redundantly  appear in later playbooks
 #
