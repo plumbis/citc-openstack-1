@@ -32,7 +32,7 @@
 
 - name: install useful operational packages
   apt:
-    name: ['zile', 'lldpd', 'traceroute', 'ifupdown', 'tcpdump', 'ethtool']
+    name: ['zile', 'lldpd', 'traceroute', 'ifupdown2', 'tcpdump', 'ethtool']
 - service:
     name: lldpd
     enabled: yes
