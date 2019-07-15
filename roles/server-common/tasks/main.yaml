@@ -41,9 +41,33 @@
 - name: Add HostPack (NetQ and FRR)
   apt:
     name: cumulus-netq
-- copy:
-    src: files/frr_3.1+cl3u1_amd64.deb
-    dest: "/tmp"
+
+
+- name: install required packages
+  apt:
+    name:
+      - curl
+    update_cache: yes
+
+- name: Add FRRrouting key
+  apt_key:
+    url: https://deb.frrouting.org/frr/keys.asc
+    state: present
+
+- name: copy frr source
+  copy: src=frr.list dest=/etc/apt/sources.list.d/frr.list
+
+
+- name: install required packages
+  apt:
+    name:
+      - frr
+      - frr-pythontools
+    update_cache: yes
+
+#- copy:
+#    src: files/frr_3.1+cl3u1_amd64.deb
+#    dest: "/tmp"
 #- apt:
 #    deb: /tmp/frr_3.1+cl3u1_amd64.deb
 
