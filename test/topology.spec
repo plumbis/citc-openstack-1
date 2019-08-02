@@ -16,13 +16,6 @@ service oob-mgmt-server ssh eth0 22 TCP public
 service oob-mgmt-server horizon eth0 80 TCP public
 service oob-mgmt-server netq eth0 9000 TCP public
 service oob-mgmt-server ssh-demo eth0 2222 TCP public
-service oob-mgmt-server https eth0 443 TCP public
-service oob-mgmt-server http2 eth0 1337 TCP public
-service oob-mgmt-server grafana eth0 3000 TCP public
-service oob-mgmt-server novnc eth0 6080 TCP public
-service oob-mgmt-server marathon eth0 8080 TCP public
-service oob-mgmt-server mesos eth0 5050 TCP public
-service oob-mgmt-server mesosapp eth0 8088 TCP public
 
 network oob-mgmt-server eth1 192.168.0.254 255.255.0.0
 network leaf01 eth0 192.168.0.11 255.255.0.0

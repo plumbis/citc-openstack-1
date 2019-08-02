@@ -7,25 +7,23 @@
 - set_fact:
     myvars: "{{ servervars[inventory_hostname] }}"
 
-- name: Set up DNAT for Horizon UI
+- name: Set up forwarding for openstack horizon
   blockinfile:
     dest: /etc/rc.local
     insertbefore: "exit 0"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK UI DNAT"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK horizon forwarding"
     block: |
-      /sbin/iptables -t nat -A PREROUTING -p tcp --dport {{ HORIZON_UI }} --in-interface eth0 -j DNAT --to-destination {{ servervars[ HORIZON_HOST ].V4 }}:{{ HORIZON_UI }}
+      iptables -t nat -L | egrep -q "tcp.*to:10.1.1.11:80" || {
+          /sbin/iptables -t nat -A PREROUTING -p tcp --dport 80 --in-interface eth0 -j DNAT --to-destination 10.1.1.11:80
+      }
+      ps aux | grep -q "[s]ocat TCP6-LISTEN:80" || {
+          socat TCP6-LISTEN:80,fork,so-bindtodevice=eth0 TCP4:10.1.1.11:80 &
+      }
   become: true
-  register: _horizon_dnat
-- iptables:
-    table: nat
-    chain: PREROUTING
-    in_interface: eth0
-    protocol: tcp
-    destination_port: "{{ HORIZON_UI }}"
-    jump: DNAT
-    to_destination: "{{ servervars[ HORIZON_HOST ].V4 }}:{{ HORIZON_UI }}"
+  register: _horizon_forwarding
+- command: /etc/rc.local
   become: yes
-  when: _horizon_dnat is changed
+  when: _horizon_forwarding is changed
 
 # Perhaps someday if we get the shutdown/startup figured out :-)
 #
