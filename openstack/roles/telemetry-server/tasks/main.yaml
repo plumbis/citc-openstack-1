@@ -24,28 +24,4 @@
     atomic: true
     description: "unnumbered BGP gateway"
 
-- name: Start NetQ and Connect to the NetQ Telemetry Server
-  apt:
-    name: cumulus-netq
-    state: present
-  become: yes
-- service:
-    name: rsyslog
-    state: restarted
-  become: true
-- service:
-    name: netqd
-    enabled: yes
-    state: restarted
-  become: true
-- copy:
-    src: files/netq.yml
-    dest: "/etc/netq/netq.yml"
-    owner: root
-    group: root
-    mode: "u=rw,o=r,g=r"
-  become: yes
-- pause:
-    seconds: 5
-- shell: netq config restart agent
 

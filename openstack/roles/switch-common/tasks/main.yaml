@@ -1,0 +1,7 @@
+---
+- name: distribute the cluster hosts file
+  blockinfile:
+    dest: /etc/hosts
+    marker: "# {mark} ANSIBLE MANAGED BLOCK cluster hosts"
+    block: "{{ lookup('file', '{{ inventory_dir }}/files/hosts') }}"
+  become: true
