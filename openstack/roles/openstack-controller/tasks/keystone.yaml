@@ -4,9 +4,13 @@
 #
 - name: Install keystone
   apt:
-    name: ['keystone', 'apache2', 'libapache2-mod-wsgi']
+    name: ['keystone', 'apache2', 'libapache2-mod-wsgi', 'python3-pip']
     state: present
 
+- name: Install PyMySQL for mysql module
+  pip:
+    name: PyMySQL
+    
 - name: create a table for keystone
   mysql_db:
     name: keystone
