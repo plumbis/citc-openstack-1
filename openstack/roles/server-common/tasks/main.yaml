@@ -26,21 +26,23 @@
 - apt:
     update_cache: yes
 
+- name: Add apt FRR apt key 
+  apt_key:
+    url: https://deb.frrouting.org/frr/keys.asc 
+    state: present
+
+- apt_repository:
+    repo: deb https://deb.frrouting.org/frr xenial frr-stable 
+    state: present
+
 
 - name: install useful operational packages
   apt:
-    name: ['lldpd', 'traceroute', 'ifupdown', 'tcpdump', 'ethtool']
+    name: ['lldpd', 'traceroute', 'ifupdown', 'tcpdump', 'ethtool', 'frr','frr-pythontools']
 - service:
     name: lldpd
     enabled: yes
     state: started
-
-
-- copy:
-    src: files/frr_4.0+cl3u9_amd64.deb
-    dest: "/tmp"
-- apt:
-    deb: /tmp/frr_4.0+cl3u9_amd64.deb
 
 # These packages redundantly  appear in later playbooks
 #
