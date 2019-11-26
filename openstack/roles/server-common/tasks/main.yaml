@@ -92,6 +92,19 @@
     owner: root
     group: root
     mode: "u=rw,g=r,o=r"
+
+- copy:
+    src: os_admin.sh
+    dest: /home/cumulus/os_admin.sh
+    owner: cumulus
+    group: cumulus
+
+- copy:
+    src: os_user.sh
+    dest: /home/cumulus/os_user.sh
+    owner: cumulus
+    group: cumulus
+
 - command: 'sysctl --system'
 - service:
     name: frr
